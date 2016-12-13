@@ -1,0 +1,20 @@
+{
+  "name": "apollo-next-example",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "prod": "next start"
+  },
+  "author": "Nicola Marcacci Rossi <nicolamr@gmail.com> (http://nmr.io)",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-client": "^0.5.19",
+    "graphql-tag": "^1.1.2",
+    "isomorphic-fetch": "^2.2.1",
+    "next": "^1.2.3"
+  }
+}
