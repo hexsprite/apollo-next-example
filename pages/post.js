@@ -4,22 +4,26 @@ import 'isomorphic-fetch'
 import apollo from '../apollo'
 import Link from 'next/link'
 
-const query = gql`query ($_id: String) {
-  post(_id: $_id) {
+const query = gql`query ($id: ID!) {
+  getPost (id: $id) {
     title
    	content
     comments {
-      content
+      edges {
+        node {
+          content
+        }
+      }
     }
   }
 }
 `
 export default class extends React.Component {
-  static async getInitialProps({req, query: {_id}}) {
+  static async getInitialProps({req, query: {id}}) {
     return await apollo.query({
       query,
       variables: {
-        _id
+        id
       },
     })
   }
@@ -28,15 +32,15 @@ export default class extends React.Component {
     if (loading) {
       return <span>Loading...</span>
     } else {
-      const post = this.props.data.post
+      const post = this.props.data.getPost
       return <div>
         <Link href="/">Posts</Link>
         <h1>{post.title}</h1>
         <p>{post.content}</p>
         {post.comments &&
           <ul>
-            {post.comments.map(comment => {
-              <li>{comment.content}</li>
+            {post.comments.edges.map(comment => {
+              <li>{comment.node.content}</li>
             })}
           </ul>
         }

@@ -4,10 +4,16 @@ import 'isomorphic-fetch'
 import apollo from '../apollo'
 import Link from 'next/link'
 
-const query = gql`query {
-  posts {
-    _id
-  	title
+const query = gql`query posts {
+  viewer {
+    allPosts {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
   }
 }`
 export default class extends React.Component {
@@ -23,9 +29,10 @@ export default class extends React.Component {
     } else {
       return <div>
         <ul>
-          {this.props.data.posts.map(post => {
-            return <li key={post._id}>
-              <Link href={`/post?_id=${post._id}`}>{post.title}</Link>
+          {this.props.data.viewer.allPosts.edges.map(post => {
+            post = post.node
+            return <li key={post.id}>
+              <Link href={`/post?id=${post.id}`}>{post.title}</Link>
             </li>
           })}
         </ul>
